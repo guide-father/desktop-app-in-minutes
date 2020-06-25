@@ -1,6 +1,8 @@
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, app ,remote} = require('electron');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const fs = require("fs");
+const historyPath= (app || remote.app).getPath("userData") + "/history.csv";
+// console.log(historyPath)
 
 function openModel(parent, pageType) {
     modal = new BrowserWindow({
@@ -30,8 +32,8 @@ function openModel(parent, pageType) {
 
 function writeHistory(url) {
     const csvWriter = createCsvWriter({
-        path: './temp/history.csv',
-        append: true,
+        path: historyPath,
+        append:true,
         header: [
             { id: 'date', title: 'DATE' },
             { id: 'url', title: 'URL' }
@@ -44,21 +46,19 @@ function writeHistory(url) {
 }
 
 function getHistory() {
-    const fs = require('fs');
-    let histroy=[];
-    return new Promise(function(resolve,reject){
-        fs.readFile('./temp/history.csv', 'utf8', function (err, data) {
-            let dataArray = data.split(/\r?\n/);  
-            dataArray.shift()
-            dataArray.forEach(d=>{
-                if(d){
+    let histroy = [];
+    return new Promise(function (resolve, reject) {
+        fs.readFile(historyPath, 'utf8', function (err, data) {
+            let dataArray = data.split(/\r?\n/);
+            dataArray.forEach(d => {
+                if (d) {
                     histroy.push(d.split(","))
                 }
             })
             resolve(histroy);
         })
     })
-    
+
 }
 
 module.exports = {

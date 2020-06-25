@@ -1,5 +1,5 @@
 const { app, BrowserWindow, Menu, shell } = require('electron');
-const utility =require("./utility");
+const utility = require("./utility");
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -9,7 +9,7 @@ function createWindow() {
             nodeIntegration: true
         }
     })
-    //   win.webContents.openDevTools()
+    // win.webContents.openDevTools()
     win.loadURL("https://www.blog.guidefather.in")
     const menu = Menu.buildFromTemplate([{
         label: "Menu",
@@ -17,7 +17,7 @@ function createWindow() {
             {
                 label: "Disclaimer",
                 click() {
-                    utility.openModel(win,"Disclaimer")
+                    utility.openModel(win, "Disclaimer")
                 }
             },
             {
@@ -29,23 +29,23 @@ function createWindow() {
             { type: "separator" },
             {
                 label: "Exit",
-                click(){
+                click() {
                     app.quit()
                 }
             }
         ]
 
-    },{
-        label:"History",
-        accelerator:"CommandOrControl+H",
-        click(){
-            utility.openModel(win,"History")
+    }, {
+        label: "History",
+        accelerator: "CommandOrControl+H",
+        click() {
+            utility.openModel(win, "History")
         }
     }])
     Menu.setApplicationMenu(menu)
 
-    win.webContents.on("will-navigate",function(e,url){
-       utility.writeHistory(url)
+    win.webContents.on("will-navigate", function (e, url) {
+        utility.writeHistory(url)
     })
 
 }

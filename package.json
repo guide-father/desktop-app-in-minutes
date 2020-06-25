@@ -1,20 +1,28 @@
 {
-  "name": "g-app",
+  "name": "gapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "website to desktop app",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "build:linux": "electron-builder --linux "
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Service",
+    "email": "service.b@blog.guidefather.in"
+  },
   "license": "ISC",
   "devDependencies": {
-    "electron": "^9.0.5"
+    "electron": "^9.0.5",
+    "electron-builder": "^22.7.0"
   },
   "dependencies": {
-    "csv-parser": "^2.3.3",
     "csv-writer": "^1.6.0"
+  },
+  "homepage": "https://blog.guidefather.in",
+  "nsis": {
+    "deleteAppDataOnUninstall": true,
+    "uninstallDisplayName": "app"
   }
 }
