@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.4/dist/css/uikit.min.css" />
+
+    <title>Info</title>
+</head>
+
+<body class="uk-container uk-container-large">
+    <article class="uk-article uk-margin-large-top" style="height: 550px; overflow: auto;">
+        <h1>History</h1>
+        <table class="uk-table">
+            <caption></caption>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>url</th>
+                </tr>
+            </thead>
+            <tbody id="hist-row">
+
+            </tbody>
+        </table>
+    </article>
+    <div class="uk-align-right">
+        <button id="close-info" class="uk-button uk-button-secondary uk-margin-small-top">Close</button>
+    </div>
+</body>
+<script>
+    const remote = require("electron").remote;
+    const utility = require("../utility")
+    document.querySelector("#close-info").addEventListener("click", function () {
+        remote.getCurrentWindow().close()
+    })
+    utility.getHistory().then(history => {
+        history.forEach(d => {
+            document.getElementById("hist-row").insertAdjacentHTML('beforeend', `<tr><td>${d[0]}</td><td>${d[1]}</td><tr>`);
+        });
+    })
+</script>
+
+</html>

@@ -37,8 +37,9 @@ function createWindow() {
 
     },{
         label:"History",
+        accelerator:"CommandOrControl+H",
         click(){
-            utility.openModel(win,"Disclaimer")
+            utility.openModel(win,"History")
         }
     }])
     Menu.setApplicationMenu(menu)

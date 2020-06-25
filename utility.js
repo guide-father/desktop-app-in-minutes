@@ -1,14 +1,15 @@
 const { BrowserWindow } = require('electron');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const fs = require("fs");
 
-function openModel(parent,pageType) {
+function openModel(parent, pageType) {
     modal = new BrowserWindow({
         width: 600,
         height: 700,
         title: 'Info',
         frame: false,
         backgroundColor: '#2e2c29',
-        parent:parent,
+        parent: parent,
         webPreferences: {
             nodeIntegration: true
         }
@@ -18,27 +19,50 @@ function openModel(parent,pageType) {
         case "Disclaimer":
             modal.loadFile("./src/info.html")
             break;
+        case "History":
+            modal.loadFile("./src/history.html")
+            break;
     }
     modal.on('close', function () {
         modal = null;
     });
 }
 
-function writeHistory(url ){
+function writeHistory(url) {
     const csvWriter = createCsvWriter({
         path: './temp/history.csv',
-        append:true,
+        append: true,
         header: [
-            {id: 'date', title: 'DATE'},
-            {id: 'url', title: 'URL'}
+            { id: 'date', title: 'DATE' },
+            { id: 'url', title: 'URL' }
         ]
     });
-    const records=[
-        {date:new Date(),url:url}
+    const records = [
+        { date: (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " "), url: url }
     ]
-    csvWriter.writeRecords(records)       
+    csvWriter.writeRecords(records)
 }
+
+function getHistory() {
+    const fs = require('fs');
+    let histroy=[];
+    return new Promise(function(resolve,reject){
+        fs.readFile('./temp/history.csv', 'utf8', function (err, data) {
+            let dataArray = data.split(/\r?\n/);  
+            dataArray.shift()
+            dataArray.forEach(d=>{
+                if(d){
+                    histroy.push(d.split(","))
+                }
+            })
+            resolve(histroy);
+        })
+    })
+    
+}
+
 module.exports = {
     openModel,
-    writeHistory
+    writeHistory,
+    getHistory
 }
