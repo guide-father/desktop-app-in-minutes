@@ -35,6 +35,11 @@ function createWindow() {
             }
         ]
 
+    },{
+        label:"History",
+        click(){
+            utility.openModel(win,"Disclaimer")
+        }
     }])
     Menu.setApplicationMenu(menu)
 
